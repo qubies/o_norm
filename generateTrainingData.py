@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 
 parser = argparse.ArgumentParser(description="Build Curse Training Set", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
