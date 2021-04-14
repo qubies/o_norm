@@ -3,14 +3,14 @@
 ### clone the repo
 ``` pip3 install --user -r o_norm/requirements.txt ./o_norm ```
 
-# use
+# Use
 ```python
 import o_norm
 s = "f u c k"
 s = o_norm.normalize(s)
 ```
 
-# options
+# Options
 You can configure o_norm's sensitivity in two ways, either by changing the model, or changing the threshold value.
 Both are set using `set_options(classification_threshold=0.5, model_type="common")`, where classification_threshold is a value between 0 and 1 where 1 indicates absolute certainty of a curse, and 0 means everything is a curse.
 if the classification_threshold is below 0.5, then a match that is less than the top score can be returned (the second place match for the OOV input token)

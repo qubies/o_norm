@@ -52,7 +52,7 @@ class example_generator():
             num = f"({num})"
         return num
 
-    def create_full_curse_examples(self, number_of_examples):
+    def create_curse_examples(self, number_of_examples):
         return create_from_fn("Full Curse Dictionary", self.get_random_curse, number_of_examples, self.max_length, contains_curses=True)
 
     def create_common_curse_examples(self, number_of_examples):
@@ -61,13 +61,13 @@ class example_generator():
     def create_really_common_curse_examples(self, number_of_examples):
         return create_from_fn("Really Common Curse List", self.get_random_really_common_curse, number_of_examples, self.max_length, contains_curses=True)
 
-    def create_good_word_examples(self, number_of_examples):
+    def create_word_examples(self, number_of_examples):
         return create_from_fn("Good Word Dictionary", self.get_random_word, number_of_examples, self.max_length, contains_curses=False)
 
     def create_number_examples(self, number_of_examples):
         return create_from_fn("Random Number Strings", self.get_random_number_string, number_of_examples, self.max_length, contains_curses= False, obfus=False)
 
-    def create_short_good_word_examples(self, number_of_examples):
+    def create_short_word_examples(self, number_of_examples):
         return create_from_fn("Short Good Word Dictionary", self.get_random_short_word, number_of_examples, self.max_length, contains_curses=False)
 
 def create_from_fn(name, fn, number_of_examples, max_length, contains_curses=True, obfus=True):
@@ -106,9 +106,9 @@ def create_from_fn(name, fn, number_of_examples, max_length, contains_curses=Tru
 
 if __name__ == '__main__':
     test = example_generator(CURSES, VOCABULARY)
-    print(test.create_full_curse_examples(number_of_examples=10))
+    print(test.create_curse_examples(number_of_examples=10))
     print(test.create_common_curse_examples(number_of_examples=10))
     print(test.create_really_common_curse_examples(number_of_examples=10))
-    print(test.create_short_good_word_examples(number_of_examples=10))
-    print(test.create_good_word_examples(number_of_examples=10))
+    print(test.create_word_examples(number_of_examples=10))
+    print(test.create_short_word_examples(number_of_examples=10))
     print(test.create_number_examples(number_of_examples=10))
