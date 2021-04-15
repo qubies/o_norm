@@ -1,4 +1,3 @@
-
 from simpletransformers.classification import ClassificationModel, ClassificationArgs
 from transformers import RobertaConfig, RobertaForMaskedLM
 from os import path, mkdir
@@ -33,7 +32,7 @@ def copy_model(src_file, dest_file):
     else: 
         print(f"WARN: Copy destination '{dest_path}' already exists, please specify a new model destination to copy")
 
-def load_model(file_name, save_name="", model_directory=model_directory, use_cuda=False, num_epochs=2, train_batch_size=128, eval_batch_size=128, tokenizer_dir=tokenizer_dir):
+def load_model(file_name, num_labels=141, save_name="", max_length=64, model_directory=model_directory, use_cuda=False, num_epochs=2, train_batch_size=128, eval_batch_size=128, tokenizer_dir=tokenizer_dir, silent=True, save_steps=-1, num_gpus=1):
     model_path = path.join(model_directory, file_name)
     save_path = path.join(model_directory, save_name)
     if not path.exists(model_path):
@@ -41,15 +40,16 @@ def load_model(file_name, save_name="", model_directory=model_directory, use_cud
     ca = ClassificationArgs()
     ca.num_train_epochs=num_epochs
     ca.output_dir=save_path
-    ca.max_sequence_length=64
+    ca.max_sequence_length=max_length
     ca.train_batch_size=train_batch_size
     ca.logging_steps=1
-    ca.save_steps=-1
+    ca.save_steps=save_steps
     ca.eval_batch_size=eval_batch_size
     ca.tokenizer_name = tokenizer_dir
-    ca.n_gpu = 1
+    ca.n_gpu = num_gpus
     ca.use_multiprocessing=False
     ca.use_multiprocessing_for_evaluation=False
-    ca.silent=True
+    ca.silent=silent
 
-    return ClassificationModel('roberta', model_path, num_labels=141, use_cuda=use_cuda, args=ca)
+    return ClassificationModel('roberta', model_path, num_labels=num_labels, use_cuda=use_cuda, args=ca)
+

@@ -2,6 +2,7 @@ from o_norm.preprocessing import spacy_tokenize, spacy_ner_replace, purify
 from o_norm.obfuscator import obfuscate
 from o_norm.print_utils import print_banner
 from o_norm.resources import CURSES, VOCABULARY
+from tqdm import tqdm
 
 import spacy
 import json
@@ -76,26 +77,26 @@ def create_from_fn(name, fn, number_of_examples, max_length, contains_curses=Tru
     global e_dup
     duplicates_rejected = 0
     print_banner(f"Creating examples for {name}")
-
-    while len(examples) < number_of_examples:
-        word_to_obfuscate = fn()
-        if obfus: 
-            obfuscated = purify(obfuscate(word_to_obfuscate))
-        else:
-            obfuscated = purify(word_to_obfuscate)
-
-        if len(obfuscated) == 0: continue
-        obfuscated = obfuscated[:max_length]
-        if obfuscated not in e_dup:
-            e_dup.add(obfuscated)
-            if contains_curses: 
-                ys.append((1.0, [word_to_obfuscate]))
+    with tqdm(total=number_of_examples) as pbar:
+        while len(examples) < number_of_examples:
+            word_to_obfuscate = fn()
+            if obfus: 
+                obfuscated = purify(obfuscate(word_to_obfuscate))
             else:
-                ys.append((0.0, []))
-            examples.append(obfuscated)
-        else: 
-            duplicates_rejected += 1
-        #  print(f"\rexamples: {len(examples)} rejected: {duplicates_rejected}", end = "")
+                obfuscated = purify(word_to_obfuscate)
+
+            if len(obfuscated) == 0: continue
+            obfuscated = obfuscated[:max_length]
+            if obfuscated not in e_dup:
+                e_dup.add(obfuscated)
+                if contains_curses: 
+                    ys.append((1.0, [word_to_obfuscate]))
+                else:
+                    ys.append((0.0, []))
+                examples.append(obfuscated)
+                pbar.update(1)
+            else: 
+                duplicates_rejected += 1
     print()
     print(f"{name} Examples Created: {len(examples)}")
     print()
@@ -112,3 +113,4 @@ if __name__ == '__main__':
     print(test.create_word_examples(number_of_examples=10))
     print(test.create_short_word_examples(number_of_examples=10))
     print(test.create_number_examples(number_of_examples=10))
+

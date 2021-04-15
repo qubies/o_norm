@@ -2,7 +2,7 @@
 import argparse
 from o_norm import resources
 
-parser = argparse.ArgumentParser(description=f"Train a new classier using a json file generated with o_norm. This trainer uses the resource files for vocabulary, which are in:\n\tMain Vocabulary: '{resources.VOCABULARY_FILE}'\n\tMain Curse List: '{resources.FULL_CURSES_FILE}'\n\tStrong Curse List: '{resources.STRONG_CURSES_FILE}'", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser = argparse.ArgumentParser(description=f"Train a new classier using a json file generated with o_norm. This trainer uses the resource files for vocabulary, which are in:\n\tMain Vocabulary: '{resources.VOCABULARY_FILE}'\n\tMain Curse List: '{resources.CURSES_FILE}'", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('training_file', type=str, help="The training data to load")
 parser.add_argument('model_name', type=str, help="The name of your model") 
 parser.add_argument('--model_directory', type=str, help="The directory where your models will be saved", default="models")
@@ -24,6 +24,7 @@ train_batch_size = args.batch_size
 eval_batch_size = args.batch_size
 use_cuda = args.use_cuda
 training_data=args.training_file
+max_length = args.max_length
 
 import pandas as pd
 import json
@@ -75,7 +76,6 @@ def load_training_data():
             if len(y[1]) > 0:
                 curses.add(y[1][0])
 
-        curses.remove("none")
         curses = sorted(list(curses))
         curses.insert(0, "none")
         translator = {x:i for i,x in enumerate(curses)}
@@ -113,9 +113,10 @@ if not path.exists(path.join(model_directory, base_file)):
 load_training_data()
 
 copy_model(base_file, model_name)
-model = load_model(model_name, f"{path.join(model_name, 'checkpoints')}")
+model = load_model(model_name, save_name=f"{path.join(model_name, 'checkpoints')}", num_labels=len(curses), use_cuda=use_cuda, train_batch_size=train_batch_size, eval_batch_size=eval_batch_size, silent=False, max_length=max_length+2, num_epochs=num_epochs)
 model.train_model(train_df)
 evaluate_model(model, test_df)
 
 with open(path.join(model_directory, "evaluation.json"), "w+") as f:
     json.dump(evals, f)
+
