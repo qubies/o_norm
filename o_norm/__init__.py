@@ -33,9 +33,9 @@ class O_Norm:
     @print_banner_completion_wrapper("Building Normalizer", banner_token="=")
     def __init__(
         self,
+        model_path,
         classification_threshold=0.5,
         classification_threshold_short=0.95,
-        model_name="50percent",
         vocabulary=RESOURCES["VOCABULARY"],
         max_length=50,
         silent=True,
@@ -43,7 +43,7 @@ class O_Norm:
     ):
         # load up the model and curse file
         self.max_length = max_length
-        self.load(model_name, silent)
+        self.load(model_path, silent)
         # add the curses.....
         vocabulary += [x for x in RESOURCES["CURSES"]]
         # add emojis
@@ -86,21 +86,19 @@ class O_Norm:
                 )
             self.threshold = normal
 
-    def load(self, model_name, silent):
-        if model_name == "50percent":
-            self.model = load_o_norm_model(RESOURCES["CURSE_BERTA"], silent=silent)
-        elif model_name == "20percent":
-            self.model = load_o_norm_model(RESOURCES["TWENTY_PERCENT"], silent=silent)
-        elif model_name == "0percent":
-            self.model = load_o_norm_model(RESOURCES["ZERO_PERCENT"], silent=silent)
-        else:
-            if path.exists(model_name):
-                try:
-                    self.model = load_o_norm_model(model_name)
-                except:
-                    print_error(f"Invalid model_name '{model_name}' specified")
-                    sys.exit(1)
-        self.model_name = model_name
+    def load(self, model_path, silent):
+        print(f"Loading '{model_path}'")
+        try:
+            self.model = load_o_norm_model(model_path)
+        except Exception as e:
+            print(f"Invalid model_path '{model_path}' specified:", e, file=sys.stderr)
+            print(
+                "Please ensure that the folder contains a valid o_norm model",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        self.model_name = path.basename(path.normpath(model_path))
+        self.model_path = model_path
 
         # build internal datastructures
         self.common_curses = [
@@ -179,7 +177,12 @@ class O_Norm:
                 replaced = True
                 relacement.append([to_replace, best_prediction])
 
-        return s, replaced, relacement, best_prediction_score
+        return {
+            "Normalized": s,
+            "Obscene": replaced,
+            "Replacement made": relacement,
+            "Score": best_prediction_score,
+        }
 
 
 if __name__ == "__main__":

@@ -6,14 +6,10 @@ import pkg_resources
 resource_dir = pkg_resources.resource_filename("o_norm", "resources")
 RESOURCES = {
     "VIPER_DCES_FILE": join(resource_dir, "viper_DCES.json"),
-    "CURSE_BERTA": join(resource_dir, "models/CurseBERTa"),
-    "TWENTY_PERCENT": join(resource_dir, "models/20percent"),
-    "ZERO_PERCENT": join(resource_dir, "models/0percent"),
     "CURSES_FILE": join(resource_dir, "vocab/curses.json"),
     "VOCABULARY_FILE": join(resource_dir, "vocab/vocabulary.json"),
     "EMOTICONS_FILE": join(resource_dir, "vocab/emoticons.json"),
     "TOKENIZER_FILES": join(resource_dir, "tokenizer_files"),
-    "MODEL_DIR": join(resource_dir, "models"),
 }
 
 

@@ -1,13 +1,24 @@
 # installation
+``` 
+git clone github.com/qubies/o_norm
+```
 
-### clone the repo
-``` pip3 install --user -r o_norm/requirements.txt ./o_norm ```
+#### If pretrained models are desired:
+download models from: https://drive.google.com/drive/folders/1zCyeeRKgcP5O1u00Bfj-Q7LU7xhexa43 
+and extract
+
+```
+pip3 install --user -r o_norm/requirements.txt ./o_norm 
+```
 
 # Use
 ```python
-import o_norm
+from o_norm import O_Norm
+onorm = O_Norm(model_path="")
 s = "f u c k"
-s = o_norm.normalize(s)
+s = onorm.normalize(s)
+print(s)
+# {'Normalized': 'fuck', 'Obscene': True, 'Replacement made': [['f u c k', 'fuck']], 'Score': 0.9905826269259627}
 ```
 
 # Options

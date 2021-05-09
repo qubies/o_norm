@@ -9,16 +9,16 @@ from torch import cuda
 # Creates a generic, untrained model that can be loaded by the trainer.
 def build_new_transformer_model(
     model_name,
-    directory=RESOURCES["MODEL_DIR"],
-    tokenizer_dir=RESOURCES["TOKENIZER_FILES"],
+    model_directory,
     max_length=50,
     num_heads=12,
     num_layers=6,
+    tokenizer_dir=RESOURCES["TOKENIZER_FILES"],
     curses=RESOURCES["CURSES"],
 ):
     global MODEL_CURSES
     MODEL_CURSES = curses
-    model_path = path.join(directory, model_name)
+    model_path = path.join(model_directory, model_name)
     if path.exists(model_path):
         response = input(
             f"Path '{model_path}' already exists for model, overwrite with untrained model (y/n)? "
@@ -34,7 +34,7 @@ def build_new_transformer_model(
     )
 
     model = RobertaForMaskedLM(config=config)
-    model.save_pretrained(path.join(directory, file_name))
+    model.save_pretrained(path.join(model_directory, model_name))
     # We assume that the character level tokenizer is wanted for now, but it might be nice to be able to use different tokenizers in the future.
     copy_tree(tokenizer_dir, model_path)
     ca = ClassificationArgs()
