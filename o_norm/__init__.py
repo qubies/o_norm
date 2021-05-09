@@ -1,5 +1,6 @@
 import numpy as np  # linear algebra
 import pickle
+import json
 import sys
 import spacy
 from os import path
@@ -41,6 +42,10 @@ class O_Norm:
         silent=True,
         emojii_dict=RESOURCES["EMOTICONS"],
     ):
+        if isinstance(vocabulary, str):
+            # assume it is a path ...
+            with open(vocabulary) as f:
+                vocabulary = json.load(f)
         # load up the model and curse file
         self.max_length = max_length
         self.load(model_path, silent)
@@ -89,7 +94,7 @@ class O_Norm:
     def load(self, model_path, silent):
         print(f"Loading '{model_path}'")
         try:
-            self.model = load_o_norm_model(model_path)
+            self.model = load_o_norm_model(model_path, silent=silent)
         except Exception as e:
             print(f"Invalid model_path '{model_path}' specified:", e, file=sys.stderr)
             print(

@@ -14,7 +14,11 @@ pip3 install --user -r o_norm/requirements.txt ./o_norm
 # Use
 ```python
 from o_norm import O_Norm
-onorm = O_Norm(model_path="")
+onorm = O_Norm(model_path,
+    classification_threshold=0.5,
+    classification_threshold_short=0.95,
+    silent=True,
+ )
 s = "f u c k"
 s = onorm.normalize(s)
 print(s)
@@ -22,12 +26,9 @@ print(s)
 ```
 
 # Options
-You can configure o_norm's sensitivity in two ways, either by changing the model, or changing the threshold value.
-Both are set using `set_options(classification_threshold=0.5, model_type="common")`, where classification_threshold is a value between 0 and 1 where 1 indicates absolute certainty of a curse, and 0 means everything is a curse.
-if the classification_threshold is below 0.5, then a match that is less than the top score can be returned (the second place match for the OOV input token)
-The model_type can be either "common" or "full", with "full" containing 519 curses, and "common" containing 141. The default is common as the reduction in output space makes the model more conservative on replacements. 
-
-If there are particular tokens you would like to include in the vocabulary, the vocabulary file is in the resources folder, and is expected to be a json list. 
+The vocabulary files default to o_norm's resouces directory. If you wish to specify a different vocabulary, indicate that when  loading the model with the keyword arg: vocabulary=[path].
+This file is expected to be a json list of ALL IV words.
+You can alter the vocabulary on an existing model to alter the OOV/IV methods, but this does not alter the trained model or its predictions. You can use this to add or remove words from the standard dictionary if they are causing false positives or negatives.
 
 # Train
 The script provided for generating training data is generateTrainingData.py:
