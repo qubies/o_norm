@@ -208,6 +208,4 @@ if output_dir != "":
 # this could cause problems with redirect, but its mostly intended for debugging as its designed
 else:
     print(json.dumps({x: y for x, y in zip(x_train, y_train)}, indent=4))
-    print(json.dumps(curse_dict, indent=4))
-
 print(f"Curse percent: {curse_percent}%")
