@@ -1,3 +1,6 @@
+## Warning
+Repository is in Alpha state, there are likely many bugs. Issues are welcome at this point, as are PRs. 
+
 # installation
 ``` 
 git clone github.com/qubies/o_norm
