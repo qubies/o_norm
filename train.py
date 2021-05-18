@@ -46,6 +46,7 @@ batch_size = args.batch_size
 use_cuda = args.use_cuda
 training_data = args.training_file
 max_length = args.max_length
+model_directory = model_name
 
 import pandas as pd
 import json
@@ -147,15 +148,15 @@ def evaluate_model(model, test):
 
 
 # create a base model with the char level tokenizer
-if not path.exists(path.join(model_directory, base_file)):
-    build_new_transformer_model(base_file)
+print("cuda", use_cuda)
+build_new_transformer_model(model_name, model_directory, use_cuda=use_cuda)
 
 # get the training data
 load_training_data()
 
 copy_model(base_file, model_name)
 model = load_o_norm_model(
-    model_name,
+    path.join(model_directory, model_name),
     batch_size=batch_size,
     silent=False,
     num_epochs=num_epochs,

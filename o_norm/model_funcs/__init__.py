@@ -15,9 +15,11 @@ def build_new_transformer_model(
     num_layers=6,
     tokenizer_dir=RESOURCES["TOKENIZER_FILES"],
     curses=RESOURCES["CURSES"],
+    use_cuda=True
 ):
     global MODEL_CURSES
     MODEL_CURSES = curses
+    RESOURCES["MODEL_DIR"]=model_directory
     model_path = path.join(model_directory, model_name)
     if path.exists(model_path):
         response = input(
@@ -41,8 +43,9 @@ def build_new_transformer_model(
     ca.output_dir = model_path
     ca.max_sequence_length = max_length + 2
     ca.tokenizer_name = tokenizer_dir
+    print(f"Use cuda {use_cuda}")
     model = ClassificationModel(
-        "roberta", model_path, num_labels=len(curses) + 1, args=ca
+        "roberta", model_path, num_labels=len(curses) + 1, args=ca, use_cuda=use_cuda
     )
     model.save_model(model_path)
     with open(path.join(model_path, "curses.json"), "w+") as f:
@@ -104,5 +107,5 @@ def load_o_norm_model(
     ca.silent = silent
 
     return ClassificationModel(
-        "roberta", model_path, use_cuda=cuda.is_available(), args=ca
+        "roberta", model_path, num_labels=len(RESOURCES["CURSES"])+1, use_cuda=cuda.is_available(), args=ca
     )
