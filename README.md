@@ -30,7 +30,7 @@ The vocabulary files default to o_norm's resouces directory. If you wish to spec
 This file is expected to be a json list of ALL IV words.
 You can alter the vocabulary on an existing model to alter the OOV/IV methods, but this does not alter the trained model or its predictions. You can use this to add or remove words from the standard dictionary if they are causing false positives or negatives.
 
-# Train
+# Generate Training Data
 The script provided for generating training data is generateTrainingData.py:
 ```
 usage: generateTrainingData.py [-h] [--examples EXAMPLES] [--max_length MAX_LENGTH]
@@ -66,3 +66,24 @@ optional arguments:
                         The file to write the curses to in json format. if empty they will print to stdout.
                         (default: )
 ```
+
+# Build Model and Train
+
+positional arguments:
+  training_file         The training data to load
+  model_name            The name of your model
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --model_directory MODEL_DIRECTORY
+                        The directory where your models will be saved (default: models)
+  --max_length MAX_LENGTH
+                        The maximum length of an obfuscated curse (default: 50)
+  --num_epochs NUM_EPOCHS
+                        The number of epochs to train for (default: 2)
+  --batch_size BATCH_SIZE
+                        The size of training batches (default: 24)
+  --eval_percentage EVAL_PERCENTAGE
+                        The percentage of training data to use for evaluation (between 0.0 and 0.90) (default: 0.2)
+  --use_cuda USE_CUDA   Use CUDA or not (default: False)
+
