@@ -1,7 +1,7 @@
 ## Warning
 Repository is in Alpha state, there are likely many bugs. Issues are welcome at this point, as are PRs. 
 
-# installation
+# Installation
 ``` 
 git clone github.com/qubies/o_norm
 ```
@@ -71,7 +71,8 @@ optional arguments:
 ```
 
 # Build Model and Train
-
+The script provided for training is train.py:
+```
 positional arguments:
   training_file         The training data to load
   model_name            The name of your model
@@ -89,4 +90,4 @@ optional arguments:
   --eval_percentage EVAL_PERCENTAGE
                         The percentage of training data to use for evaluation (between 0.0 and 0.90) (default: 0.2)
   --use_cuda USE_CUDA   Use CUDA or not (default: False)
-
+```
