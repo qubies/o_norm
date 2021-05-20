@@ -19,14 +19,6 @@ parser.add_argument(
     default=50,
 )
 
-# TODO impl this
-parser.add_argument(
-    "--negative_percent",
-    type=float,
-    help="The percentage of negative examples, between 0.0 and 0.99",
-    default=0.5,
-)
-
 parser.add_argument(
     "--all_curses_percent",
     type=float,

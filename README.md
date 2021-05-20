@@ -1,6 +1,12 @@
 ## Warning
 Repository is in Alpha state, there are likely many bugs. Issues are welcome at this point, as are PRs. 
 
+# Introduction
+O_Norm is a library designed to enable de-obfuscation of offensive words in text. O_Norm operates only on words that are out of vocabulary (OOV). The two models provided are trained with different percentages of negative samples (25 % and 50 %) where the model trained on 50% negative examples is more precise, and less likely to produce false positives than the 25% model, however this is at the expense of recall.
+
+To use the library you need a model, you can either use a pretrained model or genereate data, and train your own model using the included scripts (train.py and generateTrainingData.py).
+model_path is the path to the model directory, as downloaded or created.
+
 # Installation
 ``` 
 git clone github.com/qubies/o_norm
