@@ -43,11 +43,13 @@ You can alter the vocabulary on an existing model to alter the OOV/IV methods, b
 The script provided for generating training data is generateTrainingData.py:
 ```
 usage: generateTrainingData.py [-h] [--examples EXAMPLES] [--max_length MAX_LENGTH]
-                               [--negative_percent NEGATIVE_PERCENT] [--all_curses_percent ALL_CURSES_PERCENT]
-                               [--strong_curses_percent STRONG_CURSES_PERCENT]
+                               [--all_curses_percent ALL_CURSES_PERCENT]
+                               [--common_curses_percent COMMON_CURSES_PERCENT]
+                               [--really_common_curses_percent REALLY_COMMON_CURSES_PERCENT]
                                [--all_negative_words_percent ALL_NEGATIVE_WORDS_PERCENT]
-                               [--short_negative_words_percent SHORT_NEGATIVE_WORDS_PERCENT] [--seed SEED]
-                               [--output_file OUTPUT_FILE]
+                               [--short_negative_words_percent SHORT_NEGATIVE_WORDS_PERCENT]
+                               [--numeric_percent NUMERIC_PERCENT] [--seed SEED] [--output_dir OUTPUT_DIR]
+                               [--curse_file CURSE_FILE] [--vocab_file VOCAB_FILE]
 
 Build Curse Training Set
 
@@ -56,24 +58,32 @@ optional arguments:
   --examples EXAMPLES   The base number of examples to generate (default: 10000)
   --max_length MAX_LENGTH
                         The maximum length of an obfuscated curse (default: 50)
-  --negative_percent NEGATIVE_PERCENT
-                        The percentage of negative examples, between 0.0 and 0.99 (default: 0.5)
   --all_curses_percent ALL_CURSES_PERCENT
                         The percentage of the number of examples that is generated using the full curse dictionary
-                        (default: 0.25)
-  --strong_curses_percent STRONG_CURSES_PERCENT
-                        The percentage of the number of examples that is generated using the strong curse
-                        dictionary (default: 0.25)
+                        (default: 0.15)
+  --common_curses_percent COMMON_CURSES_PERCENT
+                        The percentage of the number of examples that is generated using values greater than 1 in
+                        the curse dictionary (default: 0.25)
+  --really_common_curses_percent REALLY_COMMON_CURSES_PERCENT
+                        The percentage of the number of examples that is generated using values of 2 in the curse
+                        dictionary (default: 0.15)
   --all_negative_words_percent ALL_NEGATIVE_WORDS_PERCENT
-                        The percentage of the number of examples that is generated using the full in the
-                        vocabulary dictionary (default: 0.25)
+                        The percentage of the number of examples that is generated using the full in the vocabulary
+                        dictionary (default: 0.1)
   --short_negative_words_percent SHORT_NEGATIVE_WORDS_PERCENT
                         The percentage of the number of examples that is generated using words with a length of 4
-                        or less in the vocabulary dictionary (default: 0.25)
+                        or less in the vocabulary dictionary (default: 0.2)
+  --numeric_percent NUMERIC_PERCENT
+                        The percentage of the number of examples that is generated using numeric strings (default:
+                        0.15)
   --seed SEED           Seed the random number generator for repeatable results -- -1 is random (default: -1)
-  --output_file OUTPUT_FILE
-                        The file to write the curses to in json format. if empty they will print to stdout.
+  --output_dir OUTPUT_DIR
+                        The directory to write the curses to in json format. if empty they will print to stdout.
                         (default: )
+  --curse_file CURSE_FILE
+                        A custom json file of curses to train on (default: o_norm)
+  --vocab_file VOCAB_FILE
+                        A custom vocabulary file used for negative examples (default: o_norm)
 ```
 
 # Build Model and Train
