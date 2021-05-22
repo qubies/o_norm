@@ -9,7 +9,7 @@ model_path is the path to the model directory, as downloaded or created.
 
 # Installation
 ``` 
-git clone github.com/qubies/o_norm
+git clone https://github.com/qubies/o_norm
 ```
 
 #### If pretrained models are desired:
