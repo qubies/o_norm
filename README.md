@@ -23,7 +23,7 @@ pip3 install --user -r o_norm/requirements.txt ./o_norm
 # Use
 ```python
 from o_norm import O_Norm
-onorm = O_Norm(model_path,
+onorm = O_Norm(model_path, # Replace with local path to model (note that the pretrained archive contains two models, only one can be loaded at a time)
     classification_threshold=0.5,
     classification_threshold_short=0.95,
     silent=True,
