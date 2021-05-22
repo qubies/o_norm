@@ -16,6 +16,10 @@ git clone https://github.com/qubies/o_norm
 download models from: https://drive.google.com/drive/folders/1zCyeeRKgcP5O1u00Bfj-Q7LU7xhexa43 
 and extract
 
+Note that the archive contains two models, one trained on 25% negative data, and another trained on 50%. 
+The 25% negative model will detect more offensive text at the expense of more false positives.
+The 50% model is more conservative and will be more accurate, but detect fewer obfuscations. 
+
 ```
 pip3 install --user -r o_norm/requirements.txt ./o_norm 
 ```
